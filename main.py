@@ -70,6 +70,13 @@ if getattr(sys, 'frozen', False):
 else:
     os.chdir(os.path.dirname(__file__))
 
+# Bothost: перезапуск переживает только /app/data, уводим рабочие папки туда.
+# Без переменной DATA_DIR поведение обычное, локально ничего не меняется.
+_data_dir = os.getenv("DATA_DIR")
+if _data_dir:
+    os.makedirs(_data_dir, exist_ok=True)
+    os.chdir(_data_dir)
+
 folders = ["configs", "logs", "storage", "storage/cache", "storage/plugins", "storage/products", "plugins"]
 for i in folders:
     if not os.path.exists(i):
